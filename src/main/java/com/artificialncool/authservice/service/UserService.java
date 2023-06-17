@@ -28,7 +28,11 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Nema taj korisinik"));
+                .orElse(null);
+    }
+
+    public Korisnik findByUsername(String username) {
+        return userRepository.findByUsername(username).orElse(null);
     }
 
     public Korisnik findById(String id) throws AccessDeniedException {

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,8 +45,14 @@ public class AuthenticationController {
 
         // Ukoliko kredencijali nisu ispravni, logovanje nece biti uspesno, desice se
         // AuthenticationException
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+        Authentication authentication;
+        try {
+            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                        authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+
+        } catch (BadCredentialsException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Bad credentials", e);
+        }
 
         // Ukoliko je autentifikacija uspesna, ubaci korisnika u trenutni security
         // kontekst
@@ -64,13 +71,13 @@ public class AuthenticationController {
     @PostMapping("/signup-guest")
     public ResponseEntity<Korisnik> addGuest(@RequestBody UserRequest userRequest, UriComponentsBuilder ucBuilder) {
 
-        Korisnik existUser = (Korisnik) this.userService.loadUserByUsername(userRequest.getUsername());
+        Korisnik existUser = (Korisnik) this.userService.findByUsername(userRequest.getUsername());
 
         if (existUser != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
         }
 
-        Korisnik user = this.userService.save(userRequest, new Role("ROLE_USER"));
+        Korisnik user = this.userService.save(userRequest, new Role("ROLE_GUEST"));
 
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
@@ -78,13 +85,13 @@ public class AuthenticationController {
     @PostMapping("/signup-host")
     public ResponseEntity<Korisnik> addHost(@RequestBody UserRequest userRequest, UriComponentsBuilder ucBuilder) {
 
-        Korisnik existUser = (Korisnik) this.userService.loadUserByUsername(userRequest.getUsername());
+        Korisnik existUser = (Korisnik) this.userService.findByUsername(userRequest.getUsername());
 
         if (existUser != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
         }
 
-        Korisnik user = this.userService.save(userRequest, new Role("ROLE_GUEST"));
+        Korisnik user = this.userService.save(userRequest, new Role("ROLE_HOST"));
 
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
