@@ -50,6 +50,7 @@ public class Korisnik implements UserDetails {
     private boolean enabled;
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles;
     }

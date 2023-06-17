@@ -39,7 +39,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id).orElseThrow(() -> new AccessDeniedException("No no no"));
     }
 
-    public Korisnik update(String id, Korisnik updated) {
+    public Korisnik update(String id, UserRequest updated) {
         Korisnik old = findById(id);
 
         old.setUsername(updated.getUsername());
