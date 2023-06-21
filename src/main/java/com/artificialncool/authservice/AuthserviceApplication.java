@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
 @EnableMongoRepositories
 public class AuthserviceApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(AuthserviceApplication.class, args);
 	}
