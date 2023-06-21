@@ -1,0 +1,28 @@
+version: "2.0"
+services:
+  auth-app:
+    container_name: auth-app
+    build: .
+    restart: always
+    ports:
+      - "9091:8080"
+    depends_on:
+      - mongo-db-auth
+    environment:
+      - SPRING_DATA_MONGODB_HOST=mongo-db-auth
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_DATABASE=auth-db
+
+
+  mongo-db-auth:
+    image: "mongo"
+    container_name: mongo-db-auth
+    restart: always
+    ports:
+      - "27020:27017"
+    volumes:
+      - auth-data:/data/db
+
+
+volumes:
+  auth-data:

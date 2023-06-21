@@ -1,20 +1,13 @@
-name: Auth App flow
+name: Auth Deployment flow
 
 on:
   push:
     branches:
-      - master
-      - develop
-  pull_request:
-    branches:
-      - master
-      - develop
-
+      - main
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -40,21 +33,18 @@ jobs:
       - name: Run tests
         run: mvn test  # --quiet
 
-#  deploy:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Docker Login
-#        env:
-#          DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
-#          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-#        run: |
-#          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-#
-#      - name: Docker Build
-#        run: docker-compose build
-#
-#      - name: Docker Tag
-#        run: docker tag hostapp_host-app matijamatovic/devops-host-backend:latest
-#
-#      - name: Docker Deploy
-#        run: docker push ${{secrets.DOCKER_USERNAME}}/devops-host-backend
+      - name: Docker Login
+        env:
+          DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        run: |
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+      - name: Docker Build
+        run: docker-compose build
+
+      - name: Docker Tag
+        run: docker tag auth-service_auth-app matijamatovic/devops-auth-service
+
+      - name: Docker Deploy
+        run: docker push ${{secrets.DOCKER_USERNAME}}/devops-auth-service
