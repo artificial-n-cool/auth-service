@@ -7,7 +7,7 @@ spec:
     - from:
         - podSelector:
             matchLabels:
-              io.kompose.network: "true"
+              io.kompose.network/app-net: "true"
   podSelector:
     matchLabels:
-      io.kompose.network: "true"
+      io.kompose.network/app-net: "true"
