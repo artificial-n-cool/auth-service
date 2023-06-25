@@ -18,4 +18,6 @@ public class LoginUserDTO {
     private String prebivaliste;
     private String jwt;
     private List<String> authorities;
+    private Long expiresIn;
+    private String accessToken;
 }

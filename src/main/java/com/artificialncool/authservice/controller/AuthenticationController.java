@@ -74,6 +74,7 @@ public class AuthenticationController {
                 .email(user.getEmail())
                 .prebivaliste(user.getPrebivaliste())
                 .jwt(jwt)
+                .accessToken(jwt)
                 .authorities(List.of(user.getRoles().get(0).getName()))
                 .build();
 

@@ -1,9 +1,6 @@
 package com.artificialncool.authservice.integration;
 
-import com.artificialncool.authservice.dto.JwtAuthenticationRequest;
-import com.artificialncool.authservice.dto.ResetRequest;
-import com.artificialncool.authservice.dto.UserRequest;
-import com.artificialncool.authservice.dto.UserTokenState;
+import com.artificialncool.authservice.dto.*;
 import com.artificialncool.authservice.model.Korisnik;
 import com.artificialncool.authservice.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,11 +48,11 @@ public class TestAccountManage extends AbstractIntegrationTest {
     }
 
     public HttpHeaders login() {
-        ResponseEntity<UserTokenState> responseEntity
+        ResponseEntity<LoginUserDTO> responseEntity
                 = dispatcher.postForEntity(
                 "/api/auth/login",
                 new JwtAuthenticationRequest(USERNAME, PASSWORD),
-                UserTokenState.class
+                LoginUserDTO.class
         );
 
         HttpHeaders headers = new HttpHeaders();
@@ -116,11 +113,11 @@ public class TestAccountManage extends AbstractIntegrationTest {
         );
 
         assertEquals(HttpStatus.OK, updateUserResponse.getStatusCode());
-        ResponseEntity<UserTokenState> loginWithNewPasswordRequest
+        ResponseEntity<LoginUserDTO> loginWithNewPasswordRequest
                 = dispatcher.postForEntity(
                 "/api/auth/login",
                 new JwtAuthenticationRequest(USERNAME, PASSWORD + "!"),
-                UserTokenState.class
+                LoginUserDTO.class
         );
 
         assertEquals(HttpStatus.OK, loginWithNewPasswordRequest.getStatusCode());
