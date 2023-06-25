@@ -25,6 +25,12 @@ public class UserService implements UserDetailsService {
     final PasswordEncoder passwordEncoder;
 
 
+    public List<Korisnik> getAllKorisnici(){
+        return userRepository.findAll();
+    }
+
+    public void deleteAllKorisnici(){ userRepository.deleteAll();}
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)

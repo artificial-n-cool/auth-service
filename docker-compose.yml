@@ -24,5 +24,6 @@ services:
       - auth-data:/data/db
 
 
+
 volumes:
   auth-data:

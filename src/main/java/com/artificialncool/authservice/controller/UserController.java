@@ -16,6 +16,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -27,6 +28,21 @@ public class UserController {
     @Autowired
     RestTemplateBuilder builder;
 
+    @GetMapping(value = "/all")
+    public ResponseEntity<List<Korisnik>> getAllKorisnici(){
+        return new ResponseEntity<>(
+                userService.getAllKorisnici(),
+                HttpStatus.OK
+        );
+    }
+
+
+
+    @DeleteMapping(value = "/all")
+    public ResponseEntity<Void> deleteAll(){
+            userService.deleteAllKorisnici();
+        return null;
+    }
     @PutMapping("/manage/reset-pass")
     public ResponseEntity<Void> resetPassword(@RequestBody ResetRequest resetRequest) {
         try {

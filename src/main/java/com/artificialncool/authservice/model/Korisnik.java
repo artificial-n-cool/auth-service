@@ -1,8 +1,7 @@
 package com.artificialncool.authservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +11,9 @@ import javax.persistence.Id;
 import java.util.Collection;
 import java.util.List;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Document("USERS")
 public class Korisnik implements UserDetails {
     @Id
