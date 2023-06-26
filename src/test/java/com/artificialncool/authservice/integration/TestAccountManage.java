@@ -79,15 +79,15 @@ public class TestAccountManage extends AbstractIntegrationTest {
                 .email("furtula@example.rs")
                 .build();
 
-        ResponseEntity<Korisnik> updateUserResponse
+        ResponseEntity<LoginUserDTO> updateUserResponse
                 = dispatcher.exchange(
                     "/api/user/" + id,
                         HttpMethod.PUT,
                         new HttpEntity<>(updatedUserRequest, headers),
-                        Korisnik.class
+                LoginUserDTO.class
         );
 
-        Korisnik updatedUser = updateUserResponse.getBody();
+        LoginUserDTO updatedUser = updateUserResponse.getBody();
         assertNotNull(updatedUser);
         assertEquals(updateUserResponse.getStatusCode(), HttpStatus.OK);
         assertEquals(USERNAME + "!", updatedUser.getUsername());

@@ -2,9 +2,11 @@ package com.artificialncool.authservice.controller;
 
 
 import com.artificialncool.authservice.dto.DisableRequest;
+import com.artificialncool.authservice.dto.LoginUserDTO;
 import com.artificialncool.authservice.dto.ResetRequest;
 import com.artificialncool.authservice.dto.UserRequest;
 import com.artificialncool.authservice.model.Korisnik;
+import com.artificialncool.authservice.security.TokenUtils;
 import com.artificialncool.authservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -22,6 +24,8 @@ import java.util.List;
 @RequestMapping(value = "/api/user")
 public class UserController {
 
+    @Autowired
+    private TokenUtils tokenUtils;
     @Autowired
     UserService userService;
 
@@ -71,7 +75,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Korisnik> updateUser(@PathVariable String id, @RequestBody UserRequest userRequest) {
+    public ResponseEntity<LoginUserDTO> updateUser(@PathVariable String id, @RequestBody UserRequest userRequest) {
         try {
             Korisnik old = userService.findById(id);
             Korisnik updated = userService.update(id, userRequest);
@@ -87,7 +91,24 @@ public class UserController {
                 ex.printStackTrace();
                 System.out.println("Nebitno");
             }
-            return new ResponseEntity<>(updated, HttpStatus.OK);
+            String jwt = tokenUtils.generateToken(updated.getUsername());
+            long expiresIn = tokenUtils.getExpiredIn();
+
+            LoginUserDTO loginUserDTO = LoginUserDTO.builder()
+                    .id(updated.getId())
+                    .ime(updated.getIme())
+                    .prezime(updated.getPrezime())
+                    .username(updated.getUsername())
+                    .email(updated.getEmail())
+                    .prebivaliste(updated.getPrebivaliste())
+                    .jwt(jwt)
+                    .accessToken(jwt)
+                    .authorities(List.of(updated.getRoles().get(0).getName()))
+                    .build();
+
+            // Vrati token kao odgovor na uspesnu autentifikaciju
+            return ResponseEntity.ok(loginUserDTO);
+//            return new ResponseEntity<>(updated, HttpStatus.OK);
         }
         catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No such user", e);
