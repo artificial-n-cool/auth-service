@@ -91,7 +91,7 @@ public class UserController {
                 ex.printStackTrace();
                 System.out.println("Nebitno");
             }
-            String jwt = tokenUtils.generateToken(updated.getUsername());
+            String jwt = tokenUtils.generateToken(updated);
             long expiresIn = tokenUtils.getExpiredIn();
 
             LoginUserDTO loginUserDTO = LoginUserDTO.builder()
