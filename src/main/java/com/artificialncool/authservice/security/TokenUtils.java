@@ -9,9 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @Component
 public class TokenUtils {

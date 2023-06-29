@@ -1,8 +1,12 @@
 package com.artificialncool.authservice.controller;
 
-import javax.servlet.http.HttpServletResponse;
-
+import com.artificialncool.authservice.dto.JwtAuthenticationRequest;
 import com.artificialncool.authservice.dto.LoginUserDTO;
+import com.artificialncool.authservice.dto.UserRequest;
+import com.artificialncool.authservice.model.Korisnik;
+import com.artificialncool.authservice.model.Role;
+import com.artificialncool.authservice.security.TokenUtils;
+import com.artificialncool.authservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.artificialncool.authservice.dto.JwtAuthenticationRequest;
-import com.artificialncool.authservice.dto.UserRequest;
-import com.artificialncool.authservice.dto.UserTokenState;
-import com.artificialncool.authservice.model.Korisnik;
-import com.artificialncool.authservice.model.Role;
-import com.artificialncool.authservice.security.TokenUtils;
-import com.artificialncool.authservice.service.UserService;
-
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
