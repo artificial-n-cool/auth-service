@@ -2,7 +2,6 @@ package com.artificialncool.authservice.service;
 
 import com.artificialncool.authservice.dto.UserRequest;
 import com.artificialncool.authservice.model.Role;
-import com.artificialncool.authservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
